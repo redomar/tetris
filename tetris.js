@@ -2,6 +2,7 @@
 const canvas = document.getElementById('tetris-field');
 const context = canvas.getContext('2d');
 const scoreBoard = document.getElementById('score');
+const highScoreBoard = document.getElementById('highscore');
 context.scale(20, 20);
 const { width, height } = canvas;
 const blocks = ['iBlock', 'oBlock', 'tBlock', 'sBlock', 'zBlock', 'jBlock', 'lBlock'];
@@ -23,6 +24,8 @@ function arenaSweap() {
 }
 function updateScore() {
     scoreBoard.innerText = player.score.toString();
+    highScoreBoard.innerText = player.highscore.toString();
+    localStorage.setItem('highscore', player.highscore.toString());
 }
 function hasColided(arena, player) {
     const [m, o] = [player.matrix, player.position];
@@ -204,7 +207,7 @@ const player = {
     position: { x: 3, y: -1 },
     matrix: createBlock(blocks[blocks.length * Math.random() | 0]),
     score: 0,
-    highscore: 0
+    highscore: localStorage.getItem('highscore') ? parseInt(localStorage.getItem('highscore')) : 0
 };
 document.addEventListener('keydown', event => {
     if (event.key === 'ArrowRight' || event.key === 'd') {
@@ -224,4 +227,5 @@ document.addEventListener('keydown', event => {
     }
 });
 update();
+updateScore();
 //# sourceMappingURL=tetris.js.map

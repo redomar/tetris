@@ -4,6 +4,7 @@
 const canvas = <HTMLCanvasElement>document.getElementById('tetris-field')
 const context = <CanvasRenderingContext2D>canvas.getContext('2d')
 const scoreBoard = <HTMLElement>document.getElementById('score')
+const highScoreBoard = <HTMLElement>document.getElementById('highscore')
 context.scale(20, 20)
 const { width, height } = canvas
 
@@ -45,6 +46,8 @@ function arenaSweap() {
 
 function updateScore() {
   scoreBoard.innerText = player.score.toString()
+  highScoreBoard.innerText = player.highscore.toString()
+  localStorage.setItem('highscore', player.highscore.toString())
 }
 
 function hasColided(arena: grid, player: player) {
@@ -248,7 +251,7 @@ const player: player = {
   position: { x: 3, y: -1 },
   matrix: createBlock(blocks[blocks.length * Math.random() | 0]),
   score: 0,
-  highscore: 0
+  highscore: localStorage.getItem('highscore') ? parseInt(localStorage.getItem('highscore')!) : 0
 }
 
 document.addEventListener('keydown', event => {
@@ -266,4 +269,5 @@ document.addEventListener('keydown', event => {
 })
 
 update()
+updateScore()
 // playerReset()
